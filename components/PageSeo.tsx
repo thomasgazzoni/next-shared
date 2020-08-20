@@ -1,4 +1,4 @@
-import { AppConfig, MenuConfig } from 'config/app';
+import { AppConfig, MenuConfig, SocialConfig } from 'config/app';
 import {
   ArticleJsonLd,
   BreadcrumbJsonLd,
@@ -6,6 +6,7 @@ import {
   SocialProfileJsonLd,
 } from 'next-seo';
 import React from 'react';
+import { LanguageAlternate } from 'next-seo/lib/types';
 
 interface IProps {
   isArticle?: boolean;
@@ -15,6 +16,8 @@ interface IProps {
   publishedAt?: string;
   pathname: string;
   image?: string;
+  lang?: string;
+  relAlternate?: string[];
 }
 
 export default function PageSeo({
@@ -25,6 +28,8 @@ export default function PageSeo({
   publishedAt,
   pathname,
   image,
+  lang = 'en',
+  relAlternate = [],
 }: IProps) {
   const url = `${AppConfig.WebSiteUrl}${pathname}`;
   const updateDate = updatedAt ? new Date(updatedAt).toISOString() : '';
@@ -50,7 +55,9 @@ export default function PageSeo({
     .slice(1)
     .map(path => ({
       url: `${AppConfig.WebSiteUrl}/${path}`,
-      name: MenuConfig.find(i => i.href.includes(path))?.title || title,
+      name:
+        MenuConfig.find(i => i.lang === lang && i.href.includes(path))?.title ||
+        title,
     }));
 
   return (
@@ -65,6 +72,16 @@ export default function PageSeo({
           description,
           ...openGraph,
         }}
+        languageAlternates={[
+          { hrefLang: lang, href: url },
+          ...relAlternate
+            .map(i => i?.split('|'))
+            .filter(Boolean)
+            .map(([lang, href]) => ({
+              hrefLang: lang,
+              href: `${AppConfig.WebSiteUrl}${href}`,
+            })),
+        ]}
       />
       {paths.length && (
         <BreadcrumbJsonLd
@@ -92,11 +109,7 @@ export default function PageSeo({
         type="Person"
         name={AppConfig.AuthorName}
         url={AppConfig.WebSiteUrl}
-        sameAs={[
-          `https://twitter.com/${AppConfig.TwitterAccountId}`,
-          `https://instagram.com/${AppConfig.TwitterAccountId}`,
-          `https://linkedin.com/in/${AppConfig.LinkedInAccountId}`,
-        ]}
+        sameAs={SocialConfig.map(i => i.href)}
       />
     </>
   );

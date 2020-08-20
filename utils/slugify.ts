@@ -5,7 +5,9 @@ export default function slugify(text: string) {
     .replace(/[\u0300-\u036f]/g, '') // remove all previously split accents
     .toLowerCase()
     .trim()
+    .replace(/\'/g, '-')
     .replace(/\s+/g, '-')
     .replace(/[^\w\-]+/g, '')
-    .replace(/\-\-+/g, '-');
+    .replace(/\-\-+/g, '-')
+    .toLocaleLowerCase();
 }

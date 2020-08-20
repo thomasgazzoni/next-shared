@@ -1,8 +1,15 @@
-import { format, parseISO } from 'date-fns';
+import { format, parseISO, differenceInDays } from 'date-fns';
 
-export default function formatDate(date: string) {
+export function formatDate(date: string) {
   if (!date) {
     return '';
   }
   return format(parseISO(date), 'MMMM dd, yyyy');
+}
+
+export function formatDifference(startDate: string, endDate: string) {
+  if (!startDate || !endDate) {
+    return '~';
+  }
+  return differenceInDays(parseISO(startDate), parseISO(endDate));
 }

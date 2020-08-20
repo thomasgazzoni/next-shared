@@ -6,15 +6,37 @@ export interface MDXFrontMatter {
     text: string;
   };
   wordCount: number;
-  // From header
+  /**
+   * ID Of this post
+   */
+  id: number;
+  /**
+   * Parent ID of this post
+   */
+  parent: string | number;
   slug: string;
+  /**
+   * Content language
+   */
+  lang: string;
+  link: string;
   title: string;
+  /**
+   * Layout to be used
+   */
   layout?: 'default' | 'newsletter';
   publishedAt: string;
   updatedAt: string;
-  summary: string;
+  excerpt: string;
+  /**
+   * Main featured image
+   */
   image: string;
   url: string;
+  /**
+   * Content type (es Image, article, slideshow, etc)
+   */
+  type: string;
   pinned?: boolean;
   hidden?: boolean;
   author?: string;

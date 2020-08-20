@@ -7,9 +7,13 @@ export default function Link({
   title,
   children,
   className,
+  hrefAs,
   ...others
-}: AnchorHTMLAttributes<any>) {
-  const isInternalLink = href && (href.startsWith('/') || href.startsWith('#'));
+}: AnchorHTMLAttributes<{}> & {
+  hrefAs?: string;
+}) {
+  const isInternalLink =
+    !!href && (href.startsWith('/') || href.startsWith('#'));
 
   const classes = cx(
     'hover:underline',
@@ -19,7 +23,7 @@ export default function Link({
 
   if (isInternalLink) {
     return (
-      <NextLink href={href} passHref>
+      <NextLink href={href} passHref as={hrefAs}>
         <a title={title} className={classes} {...others}>
           {children}
         </a>

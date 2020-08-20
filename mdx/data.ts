@@ -2,35 +2,41 @@ import fs from 'fs';
 import { parseMDXFrontMatter } from './parser';
 import { readMDXFrontMatter } from './reader';
 import { MDXFrontMatter } from './types';
+import globby from 'globby';
 
-export function getDirectoryFrontMatter(
+export async function getDirectoryFrontMatter(
   fields: Array<keyof MDXFrontMatter>,
   ...path: string[]
 ) {
-  const fileDir = `${process.cwd()}/${path.join('/')}`;
-  const files = fs.readdirSync(fileDir);
-  const list: MDXFrontMatter[] = [];
-  files.forEach(fileName => {
-    list.push(getFileFrontMatter(fields, ...path, fileName));
+  const dirPath = `${process.cwd()}/${path.join('/')}`;
+
+  const pages = await globby([`${dirPath}/**/*.mdx`]);
+  const posts: MDXFrontMatter[] = [];
+
+  pages.forEach(fileName => {
+    posts.push(getFileFrontMatter(fields, fileName));
   });
-  return list;
+
+  return posts;
 }
 
 export function getFileFrontMatter(
   fields: Array<keyof MDXFrontMatter>,
-  ...path: string[]
+  fileName: string,
 ) {
-  const fileName = `${process.cwd()}/${path.join('/')}`;
   const fileContents = fs.readFileSync(fileName, 'utf8');
   const frontMatter = readMDXFrontMatter(fileContents) as MDXFrontMatter;
-  frontMatter.__resourcePath = fileName;
-  const meta = parseMDXFrontMatter(frontMatter, fileContents);
-  const result: any = Object.keys(meta).reduce(
-    (acc, field) => ({
-      ...acc,
-      [field]: fields.includes(field as any) ? meta[field] : undefined,
-    }),
-    {},
+  frontMatter.__resourcePath = fileName.substring(
+    fileName.indexOf('/pages') + 7,
   );
-  return result;
+
+  const meta = parseMDXFrontMatter(frontMatter, fileContents);
+
+  Object.keys(meta).forEach(fieldName => {
+    if (!fields.includes(fieldName as any)) {
+      delete meta[fieldName];
+    }
+  });
+
+  return meta;
 }

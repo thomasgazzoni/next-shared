@@ -52,16 +52,16 @@ function coerceValue(value: string) {
     return false;
   }
 
-  // Date
-  const date = Date.parse(value);
-  if (date) {
-    return date;
-  }
-
   // Number
   const num = +value;
   if (num) {
     return num;
+  }
+
+  // Date
+  const date = Date.parse(value);
+  if (date) {
+    return date;
   }
 
   // String
