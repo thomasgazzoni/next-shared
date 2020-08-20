@@ -6,7 +6,6 @@ import {
   SocialProfileJsonLd,
 } from 'next-seo';
 import React from 'react';
-import { LanguageAlternate } from 'next-seo/lib/types';
 
 interface IProps {
   isArticle?: boolean;
