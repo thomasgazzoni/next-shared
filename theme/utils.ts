@@ -1,7 +1,9 @@
 import { useEffect, useState } from 'react';
 import { ColorMode } from './types';
-import { localStorageManager } from './StorageManager';
 import canUseDOM from '../utils/canUseDom';
+import { setCookieValue, getCookieValue } from '../utils/cookies';
+
+const storageKey = 'theme-color-mode';
 
 const classNames = {
   light: 'theme-light',
@@ -40,10 +42,9 @@ export function useSyncBodyClass(mode: string) {
 export function useColorModeState(
   initialColorMode: ColorMode,
   useSystemColorMode = true,
-  storageManager = localStorageManager,
 ) {
   const [mode, setMode] = useState<ColorMode>(() => {
-    const stored = storageManager.get();
+    const stored = getCookieValue(storageKey);
 
     if (stored) {
       return stored;
@@ -61,9 +62,9 @@ export function useColorModeState(
 
   useEffect(() => {
     if (mode) {
-      storageManager.set(mode);
+      setCookieValue(storageKey, mode);
     }
-  }, [storageManager, mode]);
+  }, [mode]);
 
   return [mode, setMode] as const;
 }

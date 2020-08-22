@@ -1,5 +1,4 @@
 import React, { createContext, FC, ReactNode, useContext } from 'react';
-import { StorageManager } from './StorageManager';
 import { ColorMode } from './types';
 import { useColorModeState } from './utils';
 
@@ -22,7 +21,7 @@ interface ThemeProvider {
   children?: ReactNode;
   useSystemColorMode?: boolean;
   defaultValue?: ColorMode;
-  storageManager?: StorageManager;
+  cookies?: any;
 }
 
 /**
@@ -35,13 +34,11 @@ export const ThemeProvider: FC<ThemeProvider> = props => {
     children,
     useSystemColorMode = true,
     defaultValue = 'light',
-    storageManager,
   } = props;
 
   const [colorMode, setColorMode] = useColorModeState(
     defaultValue,
     useSystemColorMode,
-    storageManager,
   );
   const toggleColorMode = () =>
     setColorMode(colorMode === 'light' ? 'dark' : 'light');
