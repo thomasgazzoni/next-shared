@@ -8,16 +8,18 @@ export default function Link({
   children,
   className,
   hrefAs,
+  noStyle,
   ...others
 }: AnchorHTMLAttributes<{}> & {
   hrefAs?: string;
+  noStyle?: boolean;
 }) {
   const isInternalLink =
     !!href && (href.startsWith('/') || href.startsWith('#'));
 
   const classes = cx(
-    'hover:underline',
-    className?.includes('text-default') ? '' : 'text-primary',
+    !noStyle && 'text-primary',
+    !noStyle && 'hover:underline',
     className,
   );
 
