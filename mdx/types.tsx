@@ -4,6 +4,7 @@ export interface MDXFrontMatter {
   // Calculated
   readingTime: {
     text: string;
+    minutes: number;
   };
   wordCount: number;
   /**
@@ -32,6 +33,8 @@ export interface MDXFrontMatter {
    * Main featured image
    */
   image: string;
+  tags: string[];
+  categories: string[];
   url: string;
   /**
    * Content type (es Image, article, slideshow, etc)

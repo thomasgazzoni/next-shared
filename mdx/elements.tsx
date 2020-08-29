@@ -1,5 +1,6 @@
 import Link from '../components/Link';
 import Callout from '../components/Callout';
+import LazyImage from '@gaz/components/common/LazyImage';
 
 const Table = props => <table className="text-left" {...props} />;
 
@@ -69,22 +70,18 @@ const MDXComponents = {
   h2: props => <DocsHeading size="text-3xl" {...props} />,
   h3: props => <DocsHeading size="text-2xl" {...props} />,
   h4: props => <DocsHeading size="text-lg" {...props} />,
-  // inlineCode: props => (
-  //   <Code variantColor="yellow" fontSize="0.84em" {...props} />
-  // ),
-  // kbd: Kbd,
-  // br: props => <Box height="24px" {...props} />,
-  hr: Hr,
+  br: props => <div className="h-1" {...props} />,
+  hr: props => <hr className="my-4 w-full" {...props} />,
   table: Table,
   th: THead,
-  // td: TData,
   a: Link,
-  img: props => <AlignedImage {...props} />,
-  p: props => <p {...props} />,
   ul: props => <ul className="list-decimal pt-2 pl-2 ml-2" {...props} />,
   ol: props => <ol className="list-disc pt-2 pl-2 ml-2" {...props} />,
   li: props => <li className="p-1" {...props} />,
+  img: props => <LazyImage {...props} />,
+  p: props => <p {...props} />,
   blockquote: Quote,
+  section: props => <div className="post-chapter" {...props} />,
   iframe: props => <iframe className="w-full my-4 text-center" {...props} />,
 };
 
