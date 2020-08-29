@@ -1,6 +1,7 @@
-import Link from '../components/Link';
 import Callout from '../components/Callout';
-import LazyImage from '@gaz/components/common/LazyImage';
+import Code from '../components/Code';
+import ImageLazy from '../components/ImageLazy';
+import Link from '../components/Link';
 
 const Table = props => <table className="text-left" {...props} />;
 
@@ -28,10 +29,6 @@ const THead = props => {
 //   />
 // );
 
-const Quote = props => {
-  return <Callout {...props} />;
-};
-
 const DocsHeading = ({ size, ...props }: any) => (
   <h2
     className={`${size} font-bold leading-tight group`}
@@ -53,10 +50,6 @@ const DocsHeading = ({ size, ...props }: any) => (
   </h2>
 );
 
-const Hr = () => {
-  return <hr className="my-4 w-full" />;
-};
-
 const AlignedImage = props => {
   return (
     <div className="flex items-center justify-center">
@@ -72,17 +65,18 @@ const MDXComponents = {
   h4: props => <DocsHeading size="text-lg" {...props} />,
   br: props => <div className="h-1" {...props} />,
   hr: props => <hr className="my-4 w-full" {...props} />,
-  table: Table,
-  th: THead,
   a: Link,
+  p: props => <p {...props} />,
   ul: props => <ul className="list-decimal pt-2 pl-2 ml-2" {...props} />,
   ol: props => <ol className="list-disc pt-2 pl-2 ml-2" {...props} />,
   li: props => <li className="p-1" {...props} />,
-  img: props => <LazyImage {...props} />,
-  p: props => <p {...props} />,
-  blockquote: Quote,
+  img: props => <ImageLazy {...props} />,
+  code: Code,
+  blockquote: Callout,
   section: props => <div className="post-chapter" {...props} />,
   iframe: props => <iframe className="w-full my-4 text-center" {...props} />,
+  table: Table,
+  th: THead,
 };
 
 export default MDXComponents;
