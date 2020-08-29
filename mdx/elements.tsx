@@ -33,31 +33,17 @@ const Quote = props => {
 
 const DocsHeading = ({ size, ...props }: any) => (
   <h2
-    className={`${size} font-bold`}
-    css={{
-      scrollMarginTop: '100px',
-      scrollSnapMargin: '100px', // Safari
-      '&[id]': {
-        pointerEvents: 'none',
-      },
-      '&[id]:before': {
-        display: 'block',
-        height: ' 6rem',
-        marginTop: '-6rem',
-        visibility: 'hidden',
-        content: `""`,
-      },
-      '&[id]:hover a': { opacity: 1 },
-    }}
+    className={`${size} font-bold leading-tight group`}
+    style={{ paddingTop: '90px', marginTop: '-90px' }}
     {...props}
   >
-    <div className="pointer-events-auto">
+    <div className="pt-8">
       {props.children}
       {props.id && (
         <a
           aria-label="anchor"
-          color="blue.500"
-          className="text-primary font-normal outline-none opacity-0 ml-2 focus:opacity-100"
+          className="text-primary font-normal outline-none ml-2 opacity-0 group-hover:opacity-100 focus:opacity-100"
+          href={`#${props.id}`}
         >
           #
         </a>
@@ -70,14 +56,18 @@ const Hr = () => {
   return <hr className="my-4 w-full" />;
 };
 
-// const AlignedImage = props => {
-//   return <Image {...props} />;
-// };
+const AlignedImage = props => {
+  return (
+    <div className="flex items-center justify-center">
+      <img {...props} />
+    </div>
+  );
+};
 
 const MDXComponents = {
   h1: props => <h1 className="text-lg" {...props} />,
-  h2: props => <DocsHeading size="text-2xl" {...props} />,
-  h3: props => <DocsHeading size="text-xl" {...props} />,
+  h2: props => <DocsHeading size="text-3xl" {...props} />,
+  h3: props => <DocsHeading size="text-2xl" {...props} />,
   h4: props => <DocsHeading size="text-lg" {...props} />,
   // inlineCode: props => (
   //   <Code variantColor="yellow" fontSize="0.84em" {...props} />
@@ -89,8 +79,8 @@ const MDXComponents = {
   th: THead,
   // td: TData,
   a: Link,
-  // img: AlignedImage,
-  p: props => <p className="leading-normal" {...props} />,
+  img: props => <AlignedImage {...props} />,
+  p: props => <p {...props} />,
   ul: props => <ul className="list-decimal pt-2 pl-2 ml-2" {...props} />,
   ol: props => <ol className="list-disc pt-2 pl-2 ml-2" {...props} />,
   li: props => <li className="p-1" {...props} />,

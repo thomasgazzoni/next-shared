@@ -1,5 +1,3 @@
-import React from 'react';
-import { AppConfig } from 'config/app';
 import canUseDOM from '../utils/canUseDom';
 
 function ScriptAdSense() {

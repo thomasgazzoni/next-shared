@@ -32,7 +32,7 @@ export default function Link({
   }
 
   return (
-    <a href={href} title={title} className={classes} {...others}>
+    <a href={href} title={title} className={classes} target="blank" {...others}>
       {children}
     </a>
   );
