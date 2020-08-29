@@ -1,6 +1,6 @@
 import Link from '../components/Link';
 import Callout from '../components/Callout';
-import LazyImage from '@gaz/components/common/LazyImage';
+import ImageLazy from '@gaz/shared/components/ImageLazy';
 
 const Table = props => <table className="text-left" {...props} />;
 
@@ -77,7 +77,7 @@ const MDXComponents = {
   table: Table,
   th: THead,
   a: Link,
-  img: props => <LazyImage {...props} />,
+  img: props => <ImageLazy {...props} />,
   p: props => <p {...props} />,
   ul: props => <ul className="list-decimal pt-2 pb-6" {...props} />,
   ol: props => <ol className="list-disc pt-2 pb-6" {...props} />,

@@ -4,8 +4,8 @@ interface IProps {
   icon: ReactNode;
 }
 
-function IconButton({ icon }: IProps) {
+function ButtonIcon({ icon }: IProps) {
   return <div className="p-3">{icon}</div>;
 }
 
-export default IconButton;
+export default ButtonIcon;
