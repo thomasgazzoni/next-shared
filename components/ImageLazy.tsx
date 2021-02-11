@@ -17,6 +17,11 @@ export default function ImageLazy({
   ...others
 }: IProps) {
   const classes = `lazyload blur-up img-fit ${className || ''}`;
+
+  if (src == null || src == '') {
+    return <div />;
+  }
+
   if (src.startsWith('http')) {
     return (
       <div className="overflow-hidden flex justify-center" {...others}>

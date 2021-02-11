@@ -7,11 +7,9 @@ export default function Link({
   title,
   children,
   className,
-  hrefAs,
   noStyle,
   ...others
 }: AnchorHTMLAttributes<{}> & {
-  hrefAs?: string;
   noStyle?: boolean;
 }) {
   const isInternalLink =
@@ -25,7 +23,7 @@ export default function Link({
 
   if (isInternalLink) {
     return (
-      <NextLink href={href} passHref as={hrefAs}>
+      <NextLink href={href} passHref>
         <a title={title} className={classes} {...others}>
           {children}
         </a>
