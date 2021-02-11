@@ -1,6 +1,5 @@
 import Callout from '../components/Callout';
 import Code from '../components/Code';
-import ImageLazy from '../components/ImageLazy';
 import Link from '../components/Link';
 
 const Table = props => <table className="text-left" {...props} />;
@@ -50,14 +49,6 @@ const DocsHeading = ({ size, ...props }: any) => (
   </h2>
 );
 
-const AlignedImage = props => {
-  return (
-    <div className="flex items-center justify-center">
-      <img {...props} />
-    </div>
-  );
-};
-
 const MDXComponents = {
   h1: props => <h1 className="text-lg" {...props} />,
   h2: props => <DocsHeading size="text-3xl" {...props} />,
@@ -70,7 +61,6 @@ const MDXComponents = {
   ul: props => <ul className="list-disc pt-2 pl-2 ml-2" {...props} />,
   ol: props => <ol className="list-decimal pt-2 pl-2 ml-2" {...props} />,
   li: props => <li className="p-1" {...props} />,
-  img: props => <ImageLazy {...props} />,
   inlineCode: Code,
   blockquote: Callout,
   section: props => <div className="post-chapter" {...props} />,
