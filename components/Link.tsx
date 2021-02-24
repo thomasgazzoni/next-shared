@@ -17,6 +17,7 @@ export default function Link({
 
   const classes = cx(
     !noStyle && 'text-primary',
+    !noStyle && 'transition duration-300 ease-in-out',
     !noStyle && 'hover:underline',
     className,
   );

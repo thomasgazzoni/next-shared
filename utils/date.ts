@@ -4,7 +4,7 @@ export function formatDate(date: string) {
   if (!date) {
     return '';
   }
-  return format(parseISO(date), 'MMMM dd, yyyy');
+  return format(new Date(date), 'MMMM dd, yyyy');
 }
 
 export function formatDifference(startDate: string, endDate: string) {
