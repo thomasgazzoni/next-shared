@@ -1,0 +1,92 @@
+$namespace-prefix: 'tooltip' !default;
+$placements: 'top', 'bottom', 'left', 'right';
+$edges: 'start', '', 'end';
+$arrow-size: 6px;
+$padding: 4px 8px;
+$bg-color: #333;
+$color: #fff;
+
+@mixin arrow($placement, $edge, $width, $color) {
+  @if ($placement == 'top') {
+    border-width: $width $width 0;
+    border-top-color: $color;
+    bottom: -$width;
+  } @else if ($placement == 'bottom') {
+    border-width: 0 $width $width;
+    border-bottom-color: $color;
+    top: -$width;
+  } @else if ($placement == 'left') {
+    border-width: $width 0 $width $width;
+    border-left-color: $color;
+    right: -$width;
+  } @else if ($placement == 'right') {
+    border-width: $width $width $width 0;
+    border-right-color: $color;
+    left: -$width;
+  }
+
+  @if ($placement =='top' or $placement =='bottom') {
+    @if ($edge == 'start') {
+      left: $width;
+    } @else if ($edge == 'end') {
+      right: $width;
+    } @else {
+      left: 50%;
+      transform: translateX(-50%);
+    }
+  } @else {
+    @if ($edge == 'start') {
+      top: $width;
+    } @else if ($edge == 'end') {
+      bottom: $width;
+    } @else {
+      top: 50%;
+      transform: translateY(-50%);
+    }
+  }
+}
+
+.#{$namespace-prefix}-popper {
+  pointer-events: none;
+  max-width: calc(100vw - 10px);
+}
+
+.#{$namespace-prefix}-container {
+  position: relative;
+  border-radius: 4px;
+  font-size: 14px;
+  padding: $padding;
+  line-height: 1.4;
+  background-color: $bg-color;
+  color: $color;
+  outline: 0;
+  pointer-events: auto;
+  max-width: 200px;
+  overflow: hidden;
+  white-space: break-spaces;
+  z-index: 100;
+}
+
+@each $placement in $placements {
+  @each $edge in $edges {
+    @if ($edge == '') {
+      [data-popper-placement='#{$placement}'] {
+        .#{$namespace-prefix}-arrow {
+          @include arrow($placement, $edge, $arrow-size + 1, $bg-color);
+        }
+      }
+    } @else {
+      [data-popper-placement='#{$placement}-#{$edge}'] {
+        .#{$namespace-prefix}-arrow {
+          @include arrow($placement, $edge, $arrow-size + 1, $bg-color);
+        }
+      }
+    }
+  }
+}
+
+.#{$namespace-prefix}-arrow {
+  position: absolute;
+  border-color: transparent;
+  border-style: solid;
+}
