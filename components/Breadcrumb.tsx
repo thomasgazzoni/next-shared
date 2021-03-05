@@ -7,9 +7,10 @@ import capitalize from '../utils/capitalize';
 interface IProps {
   title: string;
   exclude?: string[];
+  className?: string;
 }
 
-export default function Breadcrumb({ title, exclude = [] }: IProps) {
+export default function Breadcrumb({ title, exclude = [], className }: IProps) {
   const { pathname } = useRouter();
 
   const subPages = pathname.split('/').filter(i => !!i);
@@ -20,7 +21,7 @@ export default function Breadcrumb({ title, exclude = [] }: IProps) {
 
   return (
     subPages.length > 1 && (
-      <nav className="py-3 rounded font-sans">
+      <nav className={className}>
         <ol className="list-reset flex text-grey-dark">
           <li>
             <Link className="text-default" href="/">
