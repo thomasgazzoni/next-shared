@@ -5,6 +5,7 @@ import {
   NextSeo,
   SocialProfileJsonLd,
 } from 'next-seo';
+import { Twitter, OpenGraph } from 'next-seo/lib/types';
 import React from 'react';
 
 interface IProps {
@@ -30,22 +31,32 @@ export default function PageSeo({
   lang = 'en',
   relAlternate = [],
 }: IProps) {
-  const url = `${AppConfig.WebSiteUrl}${pathname}`;
-  const updateDate = updatedAt ? new Date(updatedAt).toISOString() : '';
+  const url = `${AppConfig.WebSiteUrl}${pathname}/`;
+  const modifiedDate = updatedAt ? new Date(updatedAt).toISOString() : '';
   const publishedDate = publishedAt ? new Date(publishedAt).toISOString() : '';
 
   const featuredImage = {
-    url: image?.startsWith('http') ? image : `${AppConfig.WebSiteUrl}${image}`,
+    url: image?.startsWith('http') ? image : `${AppConfig.WebSiteUrl}/${image}`,
     alt: title,
   };
 
-  const openGraph = isArticle
+  const openGraph: OpenGraph = isArticle
     ? {
         type: 'article',
         article: {
+          modifiedTime: modifiedDate,
           publishedTime: publishedDate,
+          authors: [AppConfig.AuthorName],
         },
         images: [featuredImage],
+      }
+    : {
+        type: 'website',
+      };
+
+  const twitterGraph: Twitter = isArticle
+    ? {
+        cardType: 'summary',
       }
     : {};
 
@@ -62,7 +73,7 @@ export default function PageSeo({
   return (
     <>
       <NextSeo
-        title={`${title} – ${AppConfig.BlogName}`}
+        title={title}
         description={description}
         canonical={url}
         openGraph={{
@@ -71,6 +82,18 @@ export default function PageSeo({
           description,
           ...openGraph,
         }}
+        robotsProps={{
+          maxSnippet: -1,
+          maxImagePreview: 'large',
+          maxVideoPreview: -1,
+        }}
+        additionalMetaTags={[
+          {
+            httpEquiv: 'x-ua-compatible',
+            content: 'IE=edge',
+          },
+        ]}
+        twitter={twitterGraph}
         languageAlternates={[
           { hrefLang: lang, href: url },
           ...relAlternate
@@ -97,11 +120,11 @@ export default function PageSeo({
           title={title}
           description={description}
           authorName={AppConfig.AuthorName}
-          dateModified={updateDate}
+          dateModified={modifiedDate}
           datePublished={publishedDate}
           images={[featuredImage.url]}
-          publisherLogo={AppConfig.AuthorAvatar}
           publisherName={AppConfig.AuthorName}
+          publisherLogo={AppConfig.AuthorAvatar}
         />
       )}
       <SocialProfileJsonLd

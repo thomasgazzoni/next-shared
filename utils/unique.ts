@@ -7,6 +7,6 @@ export function uniqueArrayByField(
   return newItems.filter(item => existingIds.indexOf(item[idField]) === -1);
 }
 
-export function uniqueArray(array: any[]) {
+export function uniqueArray<T>(array: T[]) {
   return array.filter((v, i, a) => a.indexOf(v) === i);
 }
