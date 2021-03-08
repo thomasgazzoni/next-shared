@@ -117,8 +117,6 @@ function makeBreadcrumbSchema(url: string, title: string, pathname: string) {
   const paths = pathname.split('/').filter(Boolean);
   paths.pop();
 
-  console.log('paths', paths);
-
   return {
     '@type': 'BreadcrumbList',
     '@id': `${url}/#breadcrumb`,
@@ -236,7 +234,7 @@ export default function PageSeoJsonSchema({
   article,
   questions,
 }: IProps) {
-  const url = `${AppConfig.WebSiteUrl}${pathname}`;
+  const url = `${AppConfig.WebSiteUrl}${pathname}`.replace(/\/$/, '');
 
   let mainContent;
   switch (type) {
