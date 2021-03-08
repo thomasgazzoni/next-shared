@@ -60,79 +60,40 @@ export default function PageSeo({
       }
     : {};
 
-  const paths = pathname
-    .split('/')
-    .slice(1)
-    .map(path => ({
-      url: `${AppConfig.WebSiteUrl}/${path}`,
-      name:
-        MenuConfig.find(i => i.lang === lang && i.href.includes(path))?.title ||
-        title,
-    }));
-
   return (
-    <>
-      <NextSeo
-        title={title}
-        description={description}
-        canonical={url}
-        openGraph={{
-          url,
-          title,
-          description,
-          ...openGraph,
-        }}
-        robotsProps={{
-          maxSnippet: -1,
-          maxImagePreview: 'large',
-          maxVideoPreview: -1,
-        }}
-        additionalMetaTags={[
-          {
-            httpEquiv: 'x-ua-compatible',
-            content: 'IE=edge',
-          },
-        ]}
-        twitter={twitterGraph}
-        languageAlternates={[
-          { hrefLang: lang, href: url },
-          ...relAlternate
-            .map(i => i?.split('|'))
-            .filter(Boolean)
-            .map(([lang, href]) => ({
-              hrefLang: lang,
-              href: `${AppConfig.WebSiteUrl}${href}`,
-            })),
-        ]}
-      />
-      {paths.length && (
-        <BreadcrumbJsonLd
-          itemListElements={paths.map((item, index) => ({
-            position: index + 1,
-            item: item.url,
-            name: item.name,
-          }))}
-        />
-      )}
-      {isArticle && (
-        <ArticleJsonLd
-          url={url}
-          title={title}
-          description={description}
-          authorName={AppConfig.AuthorName}
-          dateModified={modifiedDate}
-          datePublished={publishedDate}
-          images={[featuredImage.url]}
-          publisherName={AppConfig.AuthorName}
-          publisherLogo={AppConfig.AuthorAvatar}
-        />
-      )}
-      <SocialProfileJsonLd
-        type="Person"
-        name={AppConfig.AuthorName}
-        url={AppConfig.WebSiteUrl}
-        sameAs={SocialConfig.map(i => i.href)}
-      />
-    </>
+    <NextSeo
+      title={title}
+      description={description}
+      canonical={url}
+      openGraph={{
+        url,
+        title,
+        description,
+        ...openGraph,
+      }}
+      robotsProps={{
+        maxSnippet: -1,
+        maxImagePreview: 'large',
+        maxVideoPreview: -1,
+      }}
+      additionalMetaTags={[
+        { httpEquiv: 'content-type', content: 'text/html; charset=utf-8' },
+        {
+          httpEquiv: 'x-ua-compatible',
+          content: 'IE=edge',
+        },
+      ]}
+      twitter={twitterGraph}
+      languageAlternates={[
+        { hrefLang: lang, href: url },
+        ...relAlternate
+          .map(i => i?.split('|'))
+          .filter(Boolean)
+          .map(([lang, href]) => ({
+            hrefLang: lang,
+            href: `${AppConfig.WebSiteUrl}${href}`,
+          })),
+      ]}
+    />
   );
 }

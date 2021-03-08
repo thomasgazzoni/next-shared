@@ -1,3 +1,9 @@
+export interface MDXQuestion {
+  id: string;
+  question: string;
+  answer: string;
+}
+
 export interface MDXFrontMatter {
   // Fixed
   __resourcePath: string;
