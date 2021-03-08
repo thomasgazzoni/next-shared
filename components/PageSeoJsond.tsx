@@ -2,7 +2,7 @@ import { AppConfig, MenuConfig, SocialConfig } from 'config/app';
 import React from 'react';
 import { stripHtml } from 'string-strip-html';
 import { MDXFrontMatter, MDXQuestion } from '../mdx/types';
-import Head from 'next/Head';
+import Head from 'next/head';
 import slugify from '../utils/slugify';
 
 function makeArticleSchema(url: string, post: MDXFrontMatter) {
