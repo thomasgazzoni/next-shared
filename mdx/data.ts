@@ -1,8 +1,8 @@
 import fs from 'fs';
 import { parseMDXFrontMatter } from './parser';
-import { readMDXFrontMatter } from './reader';
 import { MDXFrontMatter } from './types';
 import globby from 'globby';
+import matter from 'gray-matter';
 
 export async function getDirectoryFrontMatter(
   fields: Array<keyof MDXFrontMatter>,
@@ -25,18 +25,22 @@ export function getFileFrontMatter(
   fileName: string,
 ) {
   const fileContents = fs.readFileSync(fileName, 'utf8');
-  const frontMatter = readMDXFrontMatter(fileContents) as MDXFrontMatter;
-  frontMatter.__resourcePath = fileName.substring(
-    fileName.indexOf('/pages') + 7,
-  );
+  const frontMatter = matter(fileContents);
 
-  const meta = parseMDXFrontMatter(frontMatter, fileContents);
+  const data: Partial<MDXFrontMatter> = {
+    excerpt: frontMatter.excerpt,
+    lang: frontMatter.language,
+    __resourcePath: fileName.substring(fileName.indexOf('/pages') + 7),
+    ...frontMatter.data,
+  };
 
-  Object.keys(meta).forEach(fieldName => {
+  const result = parseMDXFrontMatter(data, frontMatter.content);
+
+  Object.keys(result).forEach(fieldName => {
     if (!fields.includes(fieldName as any)) {
-      delete meta[fieldName];
+      delete result[fieldName];
     }
   });
 
-  return meta;
+  return result;
 }

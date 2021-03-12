@@ -1,9 +1,9 @@
 import { MDXFrontMatter } from './types';
 
-export function parseMDXFrontMatter<T extends MDXFrontMatter>(
-  meta: T,
+export function parseMDXFrontMatter(
+  meta: Partial<MDXFrontMatter>,
   content: string,
-): T {
+): MDXFrontMatter {
   const readingTime = require('reading-time')(content);
   const filePath = meta.__resourcePath.replace(/.mdx/g, '');
 
@@ -13,5 +13,5 @@ export function parseMDXFrontMatter<T extends MDXFrontMatter>(
     link: `/${filePath}`,
     wordCount: content.split(/\s+/gu).length,
     readingTime,
-  };
+  } as MDXFrontMatter;
 }
